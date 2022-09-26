@@ -25,7 +25,8 @@ export const RightContainer = styled.div`
   flex: 30%;
   display: flex;
   justify-content: flex-end;
-  padding-right: 50px;
+  padding: 25px;
+  /* padding-right: 50px; */
 `;
 
 export const NavbarInnerContainer = styled.div`
@@ -40,7 +41,7 @@ export const NavbarLinkContainer = styled.div`
 
 export const NavbarLink = styled(Link)`
   color: white;
-  font-size: x-large;
+  font-size:large;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
   margin: 20px;
@@ -51,12 +52,13 @@ export const NavbarLink = styled(Link)`
   &:focus{
     color: #D1C4E9;
     background-color: #673AB7;
+    
 }`;
 
 
 export const NavbarLinkExtended = styled(Link)`
   color: white;
-  font-size: x-large;
+  font-size: large;
   font-family: Arial, Helvetica, sans-serif;
   text-decoration: none;
   margin: 20px;

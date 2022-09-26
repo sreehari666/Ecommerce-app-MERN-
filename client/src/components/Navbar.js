@@ -7,16 +7,32 @@ import {
   NavbarInnerContainer,
   NavbarLinkContainer,
   NavbarLink,
-  Logo,
   OpenLinksButton,
   NavbarLinkExtended,
 } from "../styles/Navbar.style";
-import LogoImg from "../assets/logo.png";
-
+import {HomeSearch} from '../pages/HomeSearch';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import  {NavDropdown} from "react-bootstrap";
+import '../components/stylesheets/dropdown.css'
+import {useNavigate,Link} from "react-router-dom";
 
 
 export const Navbar=()=> {
   const [extendNavbar, setExtendNavbar] = useState(false);
+  const navigate = useNavigate();
+
+  const tokenString = sessionStorage.getItem('token');
+  const emailString = sessionStorage.getItem('email');
+  const userToken = JSON.parse(tokenString);
+  const emailToken = JSON.parse(emailString);
+
+  console.log(userToken)
+  console.log(emailToken)
+  const logoutHandler = () => {
+    sessionStorage.clear()
+    navigate('/')
+    
+  };
   return (
     
     <NavbarContainer extendNavbar={extendNavbar}>
@@ -26,15 +42,25 @@ export const Navbar=()=> {
         <LeftContainer>
           <NavbarLinkContainer>
             
-
-            <NavbarLink to="/account">Account</NavbarLink>
-
             <NavbarLink to="/"> Home</NavbarLink>
-            <NavbarLink to="/products"> Products</NavbarLink>
-            <NavbarLink to="/contact"> Contact Us</NavbarLink>
-            <NavbarLink to="/about"> About Us</NavbarLink> 
-            <NavbarLink to="/signup">Signup</NavbarLink>
+            {userToken==null || emailToken == null?
+            <NavbarLink to="/login">Login</NavbarLink>
+            :
+            <NavbarLink >
+
+            <div class="dropdown">
+              <button class="dropbtn">{emailToken}</button>
+              <div class="dropdown-content">
+                <Link to='/profile'>My Profile</Link>
+                <Link to='/' onClick={logoutHandler}>Logout</Link>
+              
+               
+              </div>
+            </div>
+            </NavbarLink>
+            }
             
+            <HomeSearch />
             <OpenLinksButton
               onClick={() => {
                 setExtendNavbar((curr) => !curr);
@@ -47,8 +73,9 @@ export const Navbar=()=> {
           
         </LeftContainer>
         <RightContainer>
-        
-          <Logo src={LogoImg}></Logo>
+          <p>0</p>
+          <ShoppingCartIcon />
+          
           
         </RightContainer>
         
@@ -57,9 +84,10 @@ export const Navbar=()=> {
         <NavbarExtendedContainer>
           
           <NavbarLinkExtended to="/"> Home</NavbarLinkExtended>
-          <NavbarLinkExtended to="/products"> Products</NavbarLinkExtended>
-          <NavbarLinkExtended to="/contact"> Contact Us</NavbarLinkExtended>
-          <NavbarLinkExtended to="/about"> About Us</NavbarLinkExtended> 
+          {userToken==null || emailToken == null?<NavbarLink to="/login">Login</NavbarLink>:<NavbarLink to="/profile">Profile</NavbarLink>}
+          {/* <NavbarLinkExtended to="/account"> Account</NavbarLinkExtended>
+          <NavbarLinkExtended to="/login">Login</NavbarLinkExtended> */}
+          
           
         </NavbarExtendedContainer>
       )}

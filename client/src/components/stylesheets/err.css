@@ -1,0 +1,23 @@
+.err{
+    font-size: xx-small;
+    color: red;
+    display: flex;
+    justify-content: center;
+    letter-spacing:0px;
+    text-transform: lowercase;
+
+}
+.message{
+    font-size: xx-small;
+    color:white;
+    display: flex;
+    justify-content: center;
+    letter-spacing:0px;
+    padding-bottom: 1rem;
+    
+}
+
+/* .dropdown :hover{
+    background-image: none;
+    background-color:#673AB7;
+} */

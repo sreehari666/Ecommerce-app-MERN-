@@ -6,19 +6,34 @@ var logger = require('morgan');
 var cors = require("cors");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const bp = require('body-parser');
+var db=require('./config/connection');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(bp.json())
+app.use(bp.urlencoded({ extended: true }))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+db.connect((err)=>{
+  if(err) {
+    console.log("connection error"+err);
+  }
+  else {
+    console.log("Database connected");
+  }
+
+})
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

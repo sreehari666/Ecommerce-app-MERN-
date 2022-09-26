@@ -12,12 +12,16 @@
     font-size: 18px;
     padding: 15px;
     height: 20px;
-    width: 300px;
+    width: 250px;
+    
   }
   
   .searchIcon {
     height: 30px;
     width: 30px;
+    border-radius: 0.2rem;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
     background-color: white;
     display: grid;
     place-items: center;
@@ -28,12 +32,15 @@
   }
   .searchIcon svg {
     font-size: 35px;
+    
   }
   
   .dataResult {
-    margin-top: 10px;
-    width: 300px;
+    margin-top: 0.1rem;
+    border-radius: 0.2rem;
+    width: 280px;
     height: 80px;
+    position:absolute;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     overflow: hidden;

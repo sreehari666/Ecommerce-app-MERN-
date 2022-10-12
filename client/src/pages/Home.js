@@ -2,7 +2,8 @@
 import '../App.css';
 import {Card} from '../components/Card';
 import { useState,useEffect } from 'react';
-import {WhisperSpinner} from "../components/Loading"
+import {WhisperSpinner} from "../components/Loading";
+import PrimarySearchAppBar from '../components/Appbar';
 // import { Navigate } from "react-router-dom";
 
 export const Home=()=>{
@@ -24,8 +25,11 @@ export const Home=()=>{
     // if(userToken == null){
     //     return <Navigate replace to="/login" />;
     // }else{
+
+    
     return(
         <div className='wrapper'>
+           <PrimarySearchAppBar />
             {data?(
                 <div className="card-wrapper">
                 

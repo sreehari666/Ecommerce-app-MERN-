@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import {Link,useNavigate} from "react-router-dom";
 import { useState } from "react";
-import '../components/stylesheets/err.css';
-import PrimarySearchAppBar from '../components/Appbar';
+import '../../components/stylesheets/err.css';
+import AdminAppBar from "../../components/adminAppbar";
 
-export const Login = ()=> {
+
+export const AdminLogin = ()=> {
 
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export const Login = ()=> {
 
       e.preventDefault();
       try {
-        let res = await fetch("http://192.168.1.43:9000/users/login", {
+        let res = await fetch("http://192.168.1.43:9000/admin/admin-login", {
           method: "POST",
           body: JSON.stringify({
            
@@ -44,13 +45,13 @@ export const Login = ()=> {
           if(token == null){
               console.log(resJson.message)
           }else{
-              sessionStorage.setItem('token', JSON.stringify(token));
-              sessionStorage.setItem('email', JSON.stringify(email));
-              navigate("/");
+              sessionStorage.setItem('admin-token', JSON.stringify(token));
+              sessionStorage.setItem('admin-email', JSON.stringify(email));
+              navigate("/admin");
           }
 
         } else {
-          sessionStorage.setItem('token', JSON.stringify(token));
+          sessionStorage.setItem('admin-token', JSON.stringify(token));
          
         }
       } catch (err) {
@@ -60,11 +61,13 @@ export const Login = ()=> {
     
     
   return (
+    <div>
+    <AdminAppBar />
     <div className="center-wrapper">
-      <PrimarySearchAppBar />
+      
         <form onSubmit={handleSubmit}>
             <MainContainer>
-            <WelcomeText>LOGIN</WelcomeText>
+            <WelcomeText> ADMIN LOGIN</WelcomeText>
             <p className="message">{message}</p>
             <InputContainer>
 
@@ -75,12 +78,13 @@ export const Login = ()=> {
             <ButtonContainer>
                 <Button content="Login" type="submit" />
             </ButtonContainer>
-            <LoginWith to="/signup">OR SIGNUP </LoginWith>
+            {/* <LoginWith to="/signup">OR SIGNUP </LoginWith> */}
             <HorizontalRule />
-            
-            <ForgotPassword>Forgot Password ?</ForgotPassword>
+{/*             
+            <ForgotPassword>Forgot Password ?</ForgotPassword> */}
             </MainContainer>
         </form>
+    </div>
     </div>
   );
    

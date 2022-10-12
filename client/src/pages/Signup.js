@@ -4,6 +4,7 @@ import {Link,useNavigate} from "react-router-dom";
 import { useState } from "react";
 import '../components/stylesheets/err.css';
 import '../functions/token';
+import PrimarySearchAppBar from '../components/Appbar';
 
 
 
@@ -80,7 +81,7 @@ export const Signup = ()=> {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("http://192.168.43.162:9000/users/signup", {
+      let res = await fetch("http://192.168.1.43:9000/users/signup", {
         method: "POST",
         body: JSON.stringify(input),
         headers: {
@@ -128,6 +129,7 @@ export const Signup = ()=> {
 
   return (
     <div className="center-wrapper">
+      <PrimarySearchAppBar />
       <form onSubmit={handleSubmit}>
         <MainContainer>
           <WelcomeText>SIGNUP</WelcomeText>
@@ -172,7 +174,7 @@ export const Signup = ()=> {
           </ButtonContainer>
           <LoginWith to="/login">OR LOGIN </LoginWith>
           <HorizontalRule />
-          <ForgotPassword>Forgot Password ?</ForgotPassword>
+          
         </MainContainer>
       </form>
     </div>

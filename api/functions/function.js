@@ -78,5 +78,16 @@ module.exports={
             
         })
 
+    },
+    editDataById: (collec,userid,data)=>{
+        return new Promise( (resolve, reject) => {
+            db.get().collection(collec).updateOne({_id:ObjectId(userid)},{
+                $set:data  
+            } 
+            ).then((response)=>{
+                resolve(response)
+            })
+            
+        })
     }
 }

@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import { useState } from "react";
 import '../../components/stylesheets/err.css';
 
+const URL ="http://192.168.1.56:9000";
 
 export const AdminAddProduct=()=>{
     const [message,setMessage] = useState("")
@@ -14,11 +15,9 @@ export const AdminAddProduct=()=>{
 
     let handleSubmit = async (e) => {
 
-
-
         e.preventDefault();
         try {
-          let res = await fetch("http://192.168.1.43:9000/admin/add-product", {
+          let res = await fetch("/admin/add-product", {
             method: "POST",
             body: JSON.stringify({
              

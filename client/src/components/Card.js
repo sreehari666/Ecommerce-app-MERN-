@@ -9,7 +9,7 @@ export const Card=(props)=>{
                 <h2 className="card__title">{props.title}</h2>
                 <p className="card__description">{props.description}</p>
             </div>
-            <button className="card__btn">{props.btnText}</button>
+            <button className="card__btn" onClick={props.onClick}>{props.btnText}</button>
 
         </div>
         </div>

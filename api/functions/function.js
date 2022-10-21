@@ -80,6 +80,7 @@ module.exports={
 
     },
     editDataById: (collec,userid,data)=>{
+
         return new Promise( (resolve, reject) => {
             db.get().collection(collec).updateOne({_id:ObjectId(userid)},{
                 $set:data  
@@ -89,5 +90,38 @@ module.exports={
             })
             
         })
-    }
+    },
+    deleteDataById: (collec,userid)=>{
+        return new Promise( (resolve, reject) => {
+            db.get().collection(collec).deleteOne({_id:ObjectId(userid)}).then((response)=>{
+                resolve(response)
+            })
+            
+        })
+    },
+    checkCart:(Data)=>{
+        
+        return new Promise( (resolve, reject) => {
+            db.get().collection('cart').findOne({userid:Data.userid}).then((data)=>{
+                resolve(data)
+            })
+            
+        })
+
+    },
+    updateCart:(Data)=>{
+        
+        return new Promise( (resolve, reject) => {
+            db.get().collection('cart').updateOne({userid:Data.userid},{
+                $set:{
+                    "proid":Data.proid,
+                }  
+            } ).then((data)=>{
+                resolve(data)
+            })
+            
+        })
+
+    },
+    
 }

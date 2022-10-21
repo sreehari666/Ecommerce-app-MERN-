@@ -60,5 +60,23 @@ router.get('/products',(req,res)=>{
   })
 })
 
+router.post('/delete-product/:id',(req,res)=>{
+ 
+  console.log(req.params.id)
+  if(req.params.id){
+    Functions.deleteDataById(collection.PRODUCTS_COLLECTION,req.params.id).then((response)=>{
+      console.log(response)
+      if(response.deletedCount==1){
+        res.send({message:"success",status:true})  
+      }else{
+        res.send({message:"fail",status:false})
+      }
+      
+
+    })
+  }
+
+  
+})
 
 module.exports = router;

@@ -5,6 +5,9 @@ import { useState } from "react";
 import '../components/stylesheets/err.css';
 import PrimarySearchAppBar from '../components/Appbar';
 
+
+const URL ="http://192.168.1.56:9000";
+
 export const Login = ()=> {
 
     const navigate = useNavigate();
@@ -16,7 +19,7 @@ export const Login = ()=> {
 
       e.preventDefault();
       try {
-        let res = await fetch("http://192.168.1.43:9000/users/login", {
+        let res = await fetch(URL+"/users/login", {
           method: "POST",
           body: JSON.stringify({
            
@@ -60,8 +63,10 @@ export const Login = ()=> {
     
     
   return (
+    <div>
+    <PrimarySearchAppBar />
     <div className="center-wrapper">
-      <PrimarySearchAppBar />
+      
         <form onSubmit={handleSubmit}>
             <MainContainer>
             <WelcomeText>LOGIN</WelcomeText>
@@ -81,6 +86,7 @@ export const Login = ()=> {
             <ForgotPassword>Forgot Password ?</ForgotPassword>
             </MainContainer>
         </form>
+    </div>
     </div>
   );
    

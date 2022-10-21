@@ -10,14 +10,19 @@ import { useState } from 'react';
 import {AdminAddProduct} from './pages/admin/AddProduct';
 import {AdminLogin} from './pages/admin/AdminLogin';
 import { ViewProduct } from './pages/admin/ViewProduct';
+import {Cart} from './pages/Cart';
 
 
 
 function App() {
    
-      const tokenString = sessionStorage.getItem('token');
-      const userToken = JSON.parse(tokenString);
-      console.log(userToken)
+   const tokenString = sessionStorage.getItem('token');
+   const userToken = JSON.parse(tokenString);
+   console.log(userToken)
+
+   const adminString = sessionStorage.getItem("admin-token");
+   const adminToken = JSON.parse(adminString);
+   console.log(adminToken)
 
    
     return (
@@ -27,13 +32,14 @@ function App() {
          <Routes>
             
             <Route exact path='/' element={<Home />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/login' element={<Login />} />
+            <Route exact path='/signup' element={<Signup />} />
+            <Route exact path='/login' element={<Login />} />
+            <Route exact path='/cart' element={<Cart />} />
 
             <Route exact path='/admin' element={<AdminHome />} />
-            <Route path='/admin-add-product' element={<AdminAddProduct />} />
-            <Route path='/admin-login' element={<AdminLogin />} />
-            <Route path='/admin-view-product' element={<ViewProduct/>} />
+            <Route exact path='/admin-add-product' element={<AdminAddProduct />} />
+            <Route exact path='/admin-login' element={<AdminLogin />} />
+            <Route exact path='/admin-view-product' element={<ViewProduct/>} />
             
 
          </Routes>

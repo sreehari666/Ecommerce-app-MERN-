@@ -6,6 +6,8 @@ import '../../components/stylesheets/err.css';
 import { ViewProduct } from "./ViewProduct";
 import { Navigate } from "react-router-dom";
 
+const URL ="http://192.168.1.56:9000";
+
 
 export const AdminEditProduct=(props)=>{
     console.log("props")
@@ -24,7 +26,7 @@ export const AdminEditProduct=(props)=>{
 
         e.preventDefault();
         try {
-          let res = await fetch("http://192.168.1.43:9000/admin/edit-product/"+id, {
+          let res = await fetch(URL+"/admin/edit-product/"+id, {
             method: "POST",
             body: JSON.stringify({
              

@@ -7,6 +7,9 @@ import '../functions/token';
 import PrimarySearchAppBar from '../components/Appbar';
 
 
+const URL ="http://192.168.1.56:9000";
+
+
 
 export const Signup = ()=> {
   const [message,setMessage] = useState("");
@@ -81,7 +84,7 @@ export const Signup = ()=> {
   let handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await fetch("http://192.168.1.43:9000/users/signup", {
+      let res = await fetch(URL+"/users/signup", {
         method: "POST",
         body: JSON.stringify(input),
         headers: {
@@ -89,10 +92,10 @@ export const Signup = ()=> {
       },
       });
       let resJson = await res.json();
-     console.log("response")
-     console.log(resJson.userid);
-     var token = resJson.userid
-     setMessage(resJson.message)
+      console.log("response")
+      console.log(resJson.userid);
+      var token = resJson.userid
+      setMessage(resJson.message)
     //  setToken(token)
     //  console.log(resJson.message)
      if(token == null){
@@ -128,8 +131,10 @@ export const Signup = ()=> {
 
 
   return (
+    <div>
+    <PrimarySearchAppBar />
     <div className="center-wrapper">
-      <PrimarySearchAppBar />
+      
       <form onSubmit={handleSubmit}>
         <MainContainer>
           <WelcomeText>SIGNUP</WelcomeText>
@@ -177,6 +182,7 @@ export const Signup = ()=> {
           
         </MainContainer>
       </form>
+    </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+const { response } = require('express');
 var express = require('express');
 var router = express.Router();
 const collection=require('../config/collection');
@@ -62,6 +63,73 @@ router.post('/signup',(req,res)=>{
   }
 })
 
+router.get('/products',(req,res)=>{
+  Functions.getAllData(collection.PRODUCTS_COLLECTION).then((response)=>{
+    console.log(response)
+    res.send({response})
+  })
+})
+
+router.post('/add-to-cart/:userid/:proid',(req,res)=>{
+  console.log("product id");
+  console.log(req.params.proid)
+  console.log(req.params.userid)
+  
+
+  var proArr = [];
+  proArr.push(req.params.proid);
+  var obj={
+    "userid":req.params.userid,
+    "proid":proArr,
+  }
+
+  Functions.checkCart(obj).then((response)=>{
+    console.log(response)
+    if(response){
+      console.log("response not null")
+      var arr = response.proid
+      arr.push(req.params.proid)
+      console.log(arr)
+      var newObj={
+        "userid":response.userid,
+        "proid":arr,
+      }
+      Functions.updateCart(newObj).then((resp)=>{
+        console.log(resp)
+        res.send(newObj)
+      })
+
+    }else{
+      
+      Functions.addData(collection.CART_COLLECTION,obj).then((response)=>{
+        console.log(response)
+        res.send(obj)
+        
+      })
+    }
+  })
+  
+
+
+})
+
+router.get('/cart/:userid',(req,res)=>{
+  console.log(req.params.userid)
+  var obj={
+    "userid":req.params.userid
+  }
+  Functions.checkCart(obj).then((response)=>{
+    console.log(response)
+    res.send({response})
+  })
+})
+
+router.post('/which-product/:proid',(req,res)=>{
+  console.log(req.params.proid)
+  Functions.getDataById(collection.PRODUCTS_COLLECTION,req.params.proid).then((response)=>{
+    res.send({response})
+  })
+})
 
 
 module.exports = router;

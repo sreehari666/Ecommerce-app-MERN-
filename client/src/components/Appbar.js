@@ -23,12 +23,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { Link } from 'react-router-dom';
 import {useNavigate} from "react-router-dom";
 import { useState,useEffect} from 'react';
 
 import LoginIcon from '@mui/icons-material/Login';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
@@ -36,6 +34,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import HomeIcon from '@mui/icons-material/Home';
 import {Avatar} from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
+
+
+const URL ="http://192.168.1.56:9000";
 
 
 
@@ -97,28 +98,42 @@ export default function PrimarySearchAppBar() {
   const emailData = JSON.parse(emailString);
   console.log(emailData)
  
-const [data, setData] = useState(null);
-const [email,setEmail] = useState(emailData);
-const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [email,setEmail] = useState(emailData);
+  const [product,setProduct] = useState(null);
+  const navigate = useNavigate();
 
 
-const handleLogout =() =>{
-  sessionStorage.clear()
-  setEmail(null)
-  
-}
+  const handleLogout =() =>{
+    sessionStorage.clear()
+    setEmail(null)
+    
+  }
+  const tokenString = sessionStorage.getItem('token');
+  const userid = JSON.parse(tokenString);
+  console.log(userid)
 
+  useEffect(() => {
+      fetch(URL+"/users/cart/"+userid)
+      .then((res) => res.json())
+      .then((data) => {
+          console.log("cart items")
+          console.log(data["response"]);
+          setData(data["response"]);
+          
+      });
+  }, []);
 
-useEffect(() => {
-    fetch("https://dummyjson.com/products")
+  useEffect(() => {
+    fetch(URL+"/users/products")
     .then((res) => res.json())
     .then((data) => {
-        console.log(data["products"]);
-        setData(data["products"]);
+        console.log("cart items")
+        console.log(data["response"]);
+        setProduct(data["response"]);
         
     });
 }, []);
-
 
 
 
@@ -128,8 +143,8 @@ const [wordEntered, setWordEntered] = useState("");
 const handleFilter = (event) => {
 const searchWord = event.target.value;
 setWordEntered(searchWord);
-const newFilter = data.filter((value) => {
-  return value.title.toLowerCase().includes(searchWord.toLowerCase());
+const newFilter = product.filter((value) => {
+  return value.productName.toLowerCase().includes(searchWord.toLowerCase());
 });
 
 if (searchWord === "") {
@@ -329,9 +344,16 @@ setWordEntered("");
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <ShoppingCartIcon />
-              </Badge>
+              {data?(
+                <Badge badgeContent={data.proid.length} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              ):(
+                <Badge badgeContent={0} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              )}
+              
             </IconButton>
             
             <IconButton

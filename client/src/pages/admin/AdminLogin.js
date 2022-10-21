@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import Button from "../../components/Button";
-import {Link,useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useState } from "react";
 import '../../components/stylesheets/err.css';
 import AdminAppBar from "../../components/adminAppbar";
 
+const URL ="http://192.168.1.56:9000";
 
 export const AdminLogin = ()=> {
 
@@ -14,10 +15,10 @@ export const AdminLogin = ()=> {
     const [message, setMessage] = useState("");
   
     let handleSubmit = async (e) => {
-
+      
       e.preventDefault();
       try {
-        let res = await fetch("http://192.168.1.43:9000/admin/admin-login", {
+        let res = await fetch(URL+"/admin/admin-login", {
           method: "POST",
           body: JSON.stringify({
            
@@ -35,19 +36,22 @@ export const AdminLogin = ()=> {
           setEmail("");
           setPassword("")
           console.log("form sent")
-          setMessage("User created successfully");
+          // setMessage("User created successfully");
         
           console.log(resJson.userid);
+          console.log(resJson.message);
           var token = resJson.userid
           setMessage(resJson.message)
           //  setToken(token)
           //  console.log(resJson.message)
           if(token == null){
+              console.log("user id null")
               console.log(resJson.message)
           }else{
               sessionStorage.setItem('admin-token', JSON.stringify(token));
               sessionStorage.setItem('admin-email', JSON.stringify(email));
-              navigate("/admin");
+
+              navigate('/admin');
           }
 
         } else {
@@ -161,16 +165,6 @@ const ButtonContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
-// const LoginWith = styled(Link)'
-//   cursor:pointer;
-// ';
-// const LoginWith = styled.h6`
-//   cursor: pointer;
-// `;
-const LoginWith = styled(Link)`
-  cursor: pointer;
-  color: white;
-`;
 
 const HorizontalRule = styled.hr`
   width: 90%;
@@ -181,11 +175,6 @@ const HorizontalRule = styled.hr`
   background-color: #673AB7;
   margin: 1.5rem 0 1rem 0;
   backdrop-filter: blur(25px);
-`;
-
-const ForgotPassword = styled.h4`
-  cursor: pointer;
-  padding-top: 0.5rem;
 `;
 
 const StyledInput = styled.input`

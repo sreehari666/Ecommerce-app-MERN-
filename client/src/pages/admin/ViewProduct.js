@@ -15,11 +15,18 @@ import { useState,useEffect } from "react";
 import '../../components/stylesheets/err.css';
 import {WhisperSpinner} from "../../components/Loading";
 import {AdminEditProduct} from "./EditProduct";
+import Badge from '@mui/material/Badge';
 
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
+import {useNavigate} from "react-router-dom";
+
+const URL ="http://192.168.1.56:9000";
 
 
 export const ViewProduct = (props) =>{
 
+   const navigate = useNavigate();
     const [data, setData] = useState(null);
     const [id,setId] = useState(props.id);
 
@@ -29,7 +36,7 @@ export const ViewProduct = (props) =>{
     const [qty,setQty] = useState(null)
 
     useEffect(() => {
-        fetch("http://192.168.1.43:9000/admin/products")
+        fetch(URL+"/admin/products")
         .then((res) => res.json())
         .then((data) => {
             console.log(data['response']);
@@ -44,6 +51,43 @@ export const ViewProduct = (props) =>{
       setImg(item.imgUrl);
       setQty(item.qty);
       return <AdminEditProduct id={id} productName={productName} description={description} imgUrl={imgUrl} qty={qty} />
+    }
+    
+    async function deleteProduct(item){
+      console.log(item)
+      let confirmAction = confirm("Are you sure to delete this item ?");
+        if (confirmAction) {
+
+          try{
+            let res = await fetch(URL+"/admin/delete-product/"+item._id, {
+              method: "POST",
+              body: JSON.stringify({
+              }),
+              headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+            });
+
+            console.log(res)
+            let resJson = await res.json();
+            console.log(resJson)
+            
+            if (resJson.status === true) {
+              
+              
+              console.log("form sent")
+              window.location.reload();
+              // navigate("/admin-view-product")
+              
+    
+            } else {
+              console.log("error")
+            }
+          } catch (err) {
+            console.log(err);
+          }
+
+        } 
     }
 
 
@@ -68,16 +112,37 @@ export const ViewProduct = (props) =>{
                   data.map((item) => {
                   return <ListItem
                   secondaryAction={
-                    <IconButton edge="end" aria-label="edit" onClick={()=>editProduct(item)}>
-                      <EditIcon />
-                    </IconButton>
-                    
+                    <ButtonGroup
+                      disableElevation
+                      variant="contained"
+                      aria-label="Disabled elevation buttons"
+                    >
+
+                      <IconButton edge="end" aria-label="edit" onClick={()=>editProduct(item)}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton edge="end" aria-label="edit" onClick={()=>deleteProduct(item)}>
+                        <DeleteIcon />
+                      </IconButton>
+
+                    </ButtonGroup>
                       }
                     >
                       <ListItemAvatar>
-                        <Avatar alt="T" src={item.imgUrl} />
-                        </ListItemAvatar>
-                        <ListItemText
+
+                      <Badge
+                        overlap="circular"
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                        badgeContent={
+                          item.qty
+                          // <Avatar alt="qty" src={item.qty} />
+                        }
+                      >
+                        <Avatar alt="P" src={item.imgUrl} />
+                      </Badge>
+                        {/* <Avatar alt="T" src={item.imgUrl} /> */}
+                      </ListItemAvatar>
+                      <ListItemText
                           primary={item.productName}
                           secondary={item.description}
                         />

@@ -1,8 +1,14 @@
 import AdminAppBar from "../../components/adminAppbar";
+import { ViewProduct } from "./ViewProduct";
 
 export const AdminHome=()=>{
     return(
-        <AdminAppBar />
+        <div>
+             {/* <AdminAppBar /> */}
+            <ViewProduct />
+        </div>
+       
+
           
     )
 }
